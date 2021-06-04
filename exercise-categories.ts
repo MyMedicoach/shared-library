@@ -66,12 +66,22 @@ export const EXERCISE_CATEGORIES = Object.freeze({
   other: Object.freeze([ExerciseType.OTHER_OTHER]),
 });
 
-export type TCategory = keyof typeof EXERCISE_CATEGORIES;
+export enum ExerciseCategory {
+  physiotherapy = 'physiotherapy',
+  dietetics = 'dietetics',
+  occupationalTherapy = 'occupationalTherapy',
+  speechTherapy = 'speechTherapy',
+  medicine = 'medicine',
+  psychology = 'psychology',
+  tobaccology = 'tobaccology',
+  sportCoaching = 'sportCoaching',
+  other = 'other',
+}
 
 export const exerciseCategoriesList = Object.freeze(Object.keys(EXERCISE_CATEGORIES));
 
-export function categoryOrDefault(cat: string): TCategory {
-  return EXERCISE_CATEGORIES[cat] ? (cat as TCategory) : 'physiotherapy';
+export function categoryOrDefault(cat: string): ExerciseCategory {
+  return EXERCISE_CATEGORIES[cat] ? (cat as ExerciseCategory) : ExerciseCategory.physiotherapy;
 }
 
 const getTypeToCatMapping = memoizeOne(() => {
@@ -96,7 +106,7 @@ function warnUncategorizedType(exerciseType: string) {
   }
 }
 
-export function getCategory(exerciseType: ExerciseType | string): TCategory {
+export function getCategory(exerciseType: ExerciseType | string): ExerciseCategory {
   const typeToCategories = getTypeToCatMapping();
 
   const cat = typeToCategories[exerciseType];
@@ -112,7 +122,7 @@ export function getCategory(exerciseType: ExerciseType | string): TCategory {
 
 export function getExerciseMainCategory(
   exercise: { exerciseTypes: ExerciseType[] | string[] },
-): TCategory {
+): ExerciseCategory {
   for (const type of exercise.exerciseTypes) {
     const cat = getCategory(type);
 
@@ -121,10 +131,10 @@ export function getExerciseMainCategory(
     }
   }
 
-  return 'other';
+  return ExerciseCategory.other;
 }
 
-export function getCategories(exerciseTypes: ExerciseType[]): TCategory[] {
+export function getCategories(exerciseTypes: ExerciseType[]): ExerciseCategory[] {
   const seen = {};
   const typeToCategories = getTypeToCatMapping();
 
@@ -151,5 +161,5 @@ export function getCategories(exerciseTypes: ExerciseType[]): TCategory[] {
     }
 
     return a.localeCompare(b);
-  }) as TCategory[];
+  }) as ExerciseCategory[];
 }
