@@ -1,3 +1,4 @@
+import invert from 'lodash/invert';
 import memoizeOne from 'memoize-one';
 
 export enum ExerciseType {
@@ -162,4 +163,28 @@ export function getCategories(exerciseTypes: ExerciseType[]): ExerciseCategory[]
 
     return a.localeCompare(b);
   }) as ExerciseCategory[];
+}
+
+const categorySlugs = {
+  [ExerciseCategory.physiotherapy]: 'physio',
+  [ExerciseCategory.dietetics]: 'dietetics',
+  [ExerciseCategory.occupationalTherapy]: 'ot',
+  [ExerciseCategory.speechTherapy]: 'speech',
+  [ExerciseCategory.medicine]: 'medicine',
+  [ExerciseCategory.psychology]: 'psychology',
+  [ExerciseCategory.tobaccology]: 'tobacco',
+  [ExerciseCategory.sportCoaching]: 'sport',
+  [ExerciseCategory.other]: 'misc',
+};
+
+const getInverseCategorySlugs = memoizeOne(() => {
+  return invert(categorySlugs);
+});
+
+export function slugifyCategory(category: ExerciseCategory): string {
+  return categorySlugs[category] ?? category;
+}
+
+export function getCategoryFromSlug(slug: string): ExerciseCategory {
+  return categoryOrDefault(getInverseCategorySlugs()[slug]);
 }
