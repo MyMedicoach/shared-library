@@ -1,6 +1,6 @@
 import { RRule, RRuleSet, rrulestr } from 'rrule';
-import { pythonSplit } from '../utils/util';
 import { assert } from './assert';
+import { pythonSplit } from './string-utils';
 
 export function parseRRuleSetArray(rruleStrs: string[]) {
   const finalSet = new RRuleSet();
