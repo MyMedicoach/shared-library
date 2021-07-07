@@ -7,7 +7,11 @@ type TClampOptions = {
   shiftEndDate?: boolean,
 };
 
-export function restrictRruleSetDates(rruleSet: RRuleSet, clampOptions: TClampOptions): RRuleSet {
+type TSetClampOptions = TClampOptions & {
+  keepOutOfRangeRDates?: boolean,
+};
+
+export function restrictRruleSetDates(rruleSet: RRuleSet, clampOptions: TSetClampOptions): RRuleSet {
   const newSet = new RRuleSet();
 
   if (rruleSet.exrules().length > 0) {
@@ -18,12 +22,27 @@ export function restrictRruleSetDates(rruleSet: RRuleSet, clampOptions: TClampOp
     throw new Error('clampRruleSet does not support EXDATE');
   }
 
-  if (rruleSet.rdates().length > 0) {
-    throw new Error('clampRruleSet does not support RDATE');
+  for (const date of rruleSet.rdates()) {
+    if (!clampOptions.keepOutOfRangeRDates) {
+      if (clampOptions.startDate && date.getTime() < clampOptions.startDate.getTime()) {
+        continue;
+      }
+
+      if (clampOptions.endDate && date.getTime() > clampOptions.endDate.getTime()) {
+        continue;
+      }
+    }
+
+    newSet.rdate(date);
   }
 
   for (const rrule of rruleSet.rrules()) {
-    newSet.rrule(restrictRruleDates(rrule, clampOptions));
+    const newRrule = restrictRruleDates(rrule, clampOptions);
+    if (newRrule.first() == null) {
+      continue;
+    }
+
+    newSet.rrule(newRrule);
   }
 
   return newSet;
