@@ -1,4 +1,5 @@
-import { RRule, RRuleSet } from 'rrule';
+import { RRule, RRuleSet, Weekday } from 'rrule';
+import { assert } from './assert';
 
 type TClampOptions = {
   startDate?: Date,
@@ -111,4 +112,21 @@ export function restrictRruleDates(rrule: RRule, clampOptions: TClampOptions): R
   }
 
   return new RRule(newOptions);
+}
+
+export function isoWeekdayToRRuleWeekday(weekDay: number, weekNum?: number): Weekday {
+  assert(weekDay >= 1 && weekDay <= 7);
+  assert(weekNum !== 0);
+
+  // iso weekday is monday=1, sunday=7
+  // rrule weekday is monday=0, sunday=6
+  return new Weekday(weekDay - 1, weekNum);
+}
+
+export function rruleWeekdayToIsoWeekday(weekDay: number): number {
+  assert(weekDay >= 0 && weekDay <= 6);
+
+  // iso weekday is monday=1, sunday=7
+  // rrule weekday is monday=0, sunday=6
+  return weekDay + 1;
 }
