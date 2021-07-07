@@ -1,4 +1,4 @@
-import { assert } from '../utils/utils';
+import { assert } from './assert';
 
 export enum ScheduleFrequency {
   // Yearly = 'Yearly',
@@ -64,7 +64,9 @@ export type TSingleDateScheduleTemplate = {
   date: TScheduleTemplateStart,
 };
 
-export type TScheduleTemplate = TSingleDateScheduleTemplate | {
+export type TScheduleTemplate = TSingleDateScheduleTemplate | TRepeatingScheduleTemplate;
+
+export type TRepeatingScheduleTemplate = {
   /** repeat version */
   startDate: TScheduleTemplateStart,
 
