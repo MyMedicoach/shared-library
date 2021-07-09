@@ -86,9 +86,11 @@ export function restrictRruleDates(rrule: RRule, clampOptions: TClampOptions): R
     // have to use newOptions because startDate could cause endTime to move when using .count
     const tmpRrule = new RRule({ ...newOptions, until: endDate, count: null });
 
+    const tmpRruleCount = tmpRrule.count();
+
     const usedCount = rrule.origOptions.count != null;
-    if (usedCount) {
-      newOptions.count = tmpRrule.count();
+    if (usedCount || tmpRruleCount === 0) {
+      newOptions.count = tmpRruleCount;
     } else {
       newOptions.until = tmpRrule.last();
     }

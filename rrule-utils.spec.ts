@@ -1,5 +1,5 @@
-import { parseRrule } from './parse-rrule';
-import { restrictRruleDates } from './rrule-utils';
+import { parseRrule, parseRRuleSet } from './parse-rrule';
+import { restrictRruleDates, restrictRruleSetDates } from './rrule-utils';
 
 describe('restrictRruleDates', () => {
   it('restricts: UNTIL, start & end', () => {
@@ -180,5 +180,48 @@ RRULE:FREQ=DAILY;INTERVAL=2;COUNT=4
 DTSTART:20210707T000000Z
 RRULE:FREQ=DAILY;INTERVAL=2;COUNT=5
     `.trim());
+  });
+
+  it('restricts: <no-end> to same-day end', () => {
+    const rrule = parseRrule(`
+      DTSTART:20210705T000000Z
+      RRULE:FREQ=DAILY;INTERVAL=2
+    `);
+
+    const newRrule = restrictRruleDates(rrule, {
+      endDate: new Date('2021-07-05T00:00:00Z'),
+    });
+
+    expect(newRrule.toString()).toEqual(`DTSTART:20210705T000000Z
+RRULE:FREQ=DAILY;INTERVAL=2;UNTIL=20210705T000000Z`);
+  });
+
+  it('restricts: <no-end> to before-start end', () => {
+    const rrule = parseRrule(`
+      DTSTART:20210705T000000Z
+      RRULE:FREQ=DAILY;INTERVAL=2
+    `);
+
+    const newRrule = restrictRruleDates(rrule, {
+      endDate: new Date('2021-07-04T23:23:59Z'),
+    });
+
+    expect(newRrule.toString()).toEqual(`DTSTART:20210705T000000Z
+RRULE:FREQ=DAILY;INTERVAL=2;COUNT=0`);
+  });
+});
+
+describe('restrictRruleSetDates', () => {
+  it('removes rrules with 0 occurrences', () => {
+    const rrule = parseRRuleSet(`
+      DTSTART:20210705T000000Z
+      RRULE:FREQ=DAILY;INTERVAL=1
+    `);
+
+    const newRrule = restrictRruleSetDates(rrule, {
+      endDate: new Date('2021-07-04T23:23:59Z'),
+    });
+
+    expect(newRrule.toString()).toEqual(``);
   });
 });
