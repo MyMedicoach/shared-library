@@ -4,12 +4,20 @@
  * @param {T[] | undefined | T} val
  * @returns {T[]}
  */
-export function toArray<T>(val: undefined | T | T[]): T[] {
-  if (val === undefined) {
+export function toArray<T>(val: undefined | null | T | T[]): T[] {
+  if (val == null) {
     return [];
   }
 
   return Array.isArray(val) ? val : [val];
+}
+
+export function toArrayOrUndefined<T>(val: undefined | null | T | T[]): T[] | undefined {
+  if (val === undefined) {
+    return undefined;
+  }
+
+  return toArray(val);
 }
 
 export function lastItem<T>(array: T[] | NodeList): T {
