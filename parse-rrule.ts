@@ -47,7 +47,7 @@ export function parseRRuleSet(rruleStr: string): RRuleSet {
     const { name, value, parms } = breakDownLine(line);
 
     if (name !== 'RRULE' && dtStart) {
-      throw new Error('Incorrectly placed DTSTART found. Must be placed one line before RRULE');
+      throw new Error(`Incorrectly placed DTSTART found. Must be placed one line before RRULE in ${JSON.stringify(rruleStr)}`);
     }
 
     switch (name) {
