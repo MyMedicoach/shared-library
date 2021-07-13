@@ -61,7 +61,7 @@ export type TSchedule = TSingleDateSchedule | ({
   endDate: null | TCountEndDate | TUntilEndDate,
 } & TRepeatFrequency);
 
-type TScheduleTemplateStart = {
+export type TDateTemplate = {
   delayInDays: number,
   /** iso 8601 weekday number (1 is monday, 7 is sunday) */
   clampToWeekday?: number | null,
@@ -69,14 +69,14 @@ type TScheduleTemplateStart = {
 
 export type TSingleDateScheduleTemplate = {
   /** single date version */
-  date: TScheduleTemplateStart,
+  date: TDateTemplate,
 };
 
 export type TScheduleTemplate = TSingleDateScheduleTemplate | TRepeatingScheduleTemplate;
 
 export type TRepeatingScheduleTemplate = {
   /** repeat version */
-  startDate: TScheduleTemplateStart,
+  startDate: TDateTemplate,
 
   endDate: null | TCountEndDate,
 } & TRepeatFrequency;
@@ -260,7 +260,7 @@ export function scheduleTemplateToSchedule(date: Date,
   });
 }
 
-function templateDateToDate(date: Date, scheduleDate: TScheduleTemplateStart): string {
+function templateDateToDate(date: Date, scheduleDate: TDateTemplate): string {
   const out = new Date(date);
 
   out.setDate(out.getDate() + scheduleDate.delayInDays);
