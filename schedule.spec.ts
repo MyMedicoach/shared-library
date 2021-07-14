@@ -1,10 +1,10 @@
 import { toArray } from './array-utils';
+import type { TSchedule } from './schedule';
 import {
   rruleSetToSchedules,
   ScheduleFrequency,
   scheduleTemplateToSchedule,
   scheduleToRruleSet,
-  TSchedule,
 } from './schedule';
 
 describe('rruleSetToSchedules / scheduleToRrule', () => {
@@ -19,7 +19,7 @@ describe('rruleSetToSchedules / scheduleToRrule', () => {
   }
 
   it('supports non-repeating dates', () => {
-    testConversion(`RDATE:20210101T000000Z`, {
+    testConversion('RDATE:20210101T000000Z', {
       date: '2021-01-01',
     });
   });

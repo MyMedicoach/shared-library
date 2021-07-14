@@ -1,4 +1,5 @@
-import RRule, { Options, RRuleSet } from 'rrule';
+import type { Options } from 'rrule';
+import RRule, { RRuleSet } from 'rrule';
 import { lastItem, toArray } from './array-utils';
 import { assert } from './assert';
 import { getClosestWeekdayForwardLocal, toRfc3339DateLocal, toRfc3339DateUtc } from './date-utils';

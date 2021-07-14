@@ -1,8 +1,8 @@
 export class TwoWayMap {
-  private map = new Map();
-  private revMap = new Map();
+  private readonly map = new Map();
+  private readonly revMap = new Map();
 
-  constructor(mapping: { [key: string]: string }) {
+  constructor(mapping: Record<string, string>) {
     for (const key of Object.keys(mapping)) {
       this.map.set(key, mapping[key]);
       this.revMap.set(mapping[key], key);

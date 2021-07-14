@@ -222,6 +222,6 @@ describe('restrictRruleSetDates', () => {
       endDate: new Date('2021-07-04T23:23:59Z'),
     });
 
-    expect(newRrule.toString()).toEqual(``);
+    expect(newRrule.toString()).toEqual('');
   });
 });
