@@ -17,6 +17,7 @@ export function toArrayOrUndefined<T>(val: undefined | null | T | T[]): T[] | un
     return undefined;
   }
 
+  // eslint-disable-next-line consistent-return
   return toArray(val);
 }
 
