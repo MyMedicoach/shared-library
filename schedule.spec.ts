@@ -70,22 +70,6 @@ RRULE:UNTIL=20211001T000000Z;FREQ=DAILY;INTERVAL=1`;
     testConversion(rrule, schedule);
   });
 
-  it('supports endDate.until', () => {
-    const rrule = `DTSTART:20210101T000000Z
-RRULE:UNTIL=20211001T000000Z;FREQ=DAILY;INTERVAL=1`;
-
-    const schedule = {
-      startDate: '2021-01-01',
-      endDate: {
-        until: '2021-10-01',
-      },
-      frequency: ScheduleFrequency.Daily,
-      interval: 1,
-    };
-
-    testConversion(rrule, schedule);
-  });
-
   it('supports weekly frequencies', () => {
     const rrule = `DTSTART:20210101T000000Z
 RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,WE,SU`;
@@ -232,7 +216,7 @@ describe('scheduleTemplateToSchedule', () => {
     }]);
   });
 
-  it('converts repeating schedules templates to repeating schedules ', () => {
+  it('converts repeating schedules templates to repeating schedules', () => {
     expect(scheduleTemplateToSchedule(date, {
       startDate: {
         delayInDays: 5,
