@@ -115,7 +115,7 @@ export function rruleSetToSchedules(rruleSet: string | RRuleSet): TSchedule[] {
     assert(rrule.options.bynmonthday.length === 0);
 
     const options = rrule.origOptions;
-    let endDate: TCountEndDate | TUntilEndDate = null;
+    let endDate: TCountEndDate | TUntilEndDate | null = null;
     if (options.count) {
       endDate = { count: options.count };
 
@@ -128,10 +128,15 @@ export function rruleSetToSchedules(rruleSet: string | RRuleSet): TSchedule[] {
 
     assert(rruleFrequencyMap.hasValue(options.freq), `freq${options.freq} is not supported in TSchedule`);
 
+    const dtstart = options.dtstart;
+    assert(dtstart != null);
+    const interval = options.interval;
+    assert(interval != null && interval > 0);
+
     const schedule: TSchedule = {
-      startDate: toRfc3339DateUtc(options.dtstart),
+      startDate: toRfc3339DateUtc(dtstart),
       endDate,
-      interval: options.interval,
+      interval,
       frequency: rruleFrequencyMap.revGet(options.freq),
     };
 
@@ -152,12 +157,13 @@ export function rruleSetToSchedules(rruleSet: string | RRuleSet): TSchedule[] {
       }
 
       case ScheduleFrequency.Monthly: {
-        if ((rrule.options.bynweekday?.length ?? 0) > 0) {
-          assert(rrule.options.bynweekday.length === 1);
+        const bynweekday = rrule.options.bynweekday;
+        if (bynweekday) {
+          assert(bynweekday.length === 1);
           assert(rrule.options.bysetpos == null);
           assert(rrule.options.bymonthday == null || rrule.options.bymonthday.length === 0);
 
-          const nWeekday = rrule.options.bynweekday[0];
+          const nWeekday = bynweekday[0];
 
           assertIsMonthWeekNumber(nWeekday[1]);
 
