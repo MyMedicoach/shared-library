@@ -39,7 +39,7 @@ export enum ExerciseType {
   OTHER_TOBACCOLOGY = 'OTHER_TOBACCOLOGY',
 }
 
-export const ExerciseSubcategory = ExerciseType;
+export { ExerciseType as ExerciseSubcategory };
 
 export const EXERCISE_CATEGORIES = Object.freeze({
   physiotherapy: Object.freeze([
