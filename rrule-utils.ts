@@ -117,8 +117,8 @@ export function restrictRruleDates(rrule: RRule, clampOptions: TClampOptions): R
 }
 
 export function isoWeekdayToRRuleWeekday(weekDay: number, weekNum?: number): Weekday {
-  assert(weekDay >= 1 && weekDay <= 7);
-  assert(weekNum !== 0);
+  assert(weekDay >= 1 && weekDay <= 7, `weekDay ${weekDay} is not withing range [1, 7]`);
+  assert(weekNum !== 0, `weekNum ${weekNum} cannot be = 0`);
 
   // iso weekday is monday=1, sunday=7
   // rrule weekday is monday=0, sunday=6
