@@ -107,3 +107,65 @@ export const ISO_DATE_ONLY_REGEX = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
 export function isIsoDateOnlyString(input: string): boolean {
   return ISO_DATE_ONLY_REGEX.test(input);
 }
+
+export function isoDateOnlyToTimestampLocal(dateStr: string): number {
+  if (!isIsoDateOnlyString(dateStr)) {
+    throw new Error('date must not have time specified (yyyy-mm-dd)');
+  }
+
+  // Date.parse chooses the timeZone depending on the input format:
+  // 'yyyy-mm-dd' => UTC
+  // 'yyyy-mm-ddThh:MM:ss' => local timeZone
+  // 'yyyy-mm-ddThh:MM:ssZ' => UTC
+  return Date.parse(`${dateStr}T00:00:00`);
+}
+
+export function isoDateOnlyToTimestampUtc(dateStr: string): number {
+  if (!isIsoDateOnlyString(dateStr)) {
+    throw new Error('date must not have time specified (yyyy-mm-dd)');
+  }
+
+  return Date.parse(dateStr);
+}
+
+export function isoDateOnlyToJsDateLocal(dateStr: string): Date {
+  return new Date(isoDateOnlyToTimestampLocal(dateStr));
+}
+
+export function isoDateOnlyToJsDateUtc(dateStr: string): Date {
+  return new Date(isoDateOnlyToTimestampUtc(dateStr));
+}
+
+export function latestDate(mandatoryDate: Date, ...dates: Array<Date | null | undefined>): Date {
+  let mostRecent: Date = mandatoryDate;
+
+  for (let i = 0; i < dates.length; i++) {
+    const date = dates[i];
+    if (date == null) {
+      continue;
+    }
+
+    if (date.getTime() > mostRecent.getTime()) {
+      mostRecent = date;
+    }
+  }
+
+  return mostRecent;
+}
+
+export function earliestDate(mandatoryDate: Date, ...dates: Array<Date | null | undefined>): Date {
+  let oldest = mandatoryDate;
+
+  for (let i = 0; i < dates.length; i++) {
+    const date = dates[i];
+    if (date == null) {
+      continue;
+    }
+
+    if (date.getTime() < oldest.getTime()) {
+      oldest = date;
+    }
+  }
+
+  return oldest;
+}
