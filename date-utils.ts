@@ -101,3 +101,9 @@ export function assertIsIsoWeekday(weekday: number): void {
 export function assertIsJsWeekday(weekday: number): void {
   assert(Number.isSafeInteger(weekday) && weekday >= 0 && weekday <= 6);
 }
+
+export const ISO_DATE_ONLY_REGEX = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
+
+export function isIsoDateOnlyString(input: string): boolean {
+  return ISO_DATE_ONLY_REGEX.test(input);
+}
