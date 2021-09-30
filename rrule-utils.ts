@@ -1,5 +1,5 @@
 import { RRule, RRuleSet, Weekday } from 'rrule';
-import { assert } from './assert';
+import { assert } from './assert.js';
 
 type TClampOptions = {
   startDate?: Date,

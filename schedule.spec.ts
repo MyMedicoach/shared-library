@@ -1,11 +1,11 @@
-import { toArray } from './array-utils';
-import type { TSchedule } from './schedule';
+import { toArray } from './array-utils.js';
+import type { TSchedule } from './schedule.js';
 import {
   rruleSetToSchedules,
   ScheduleFrequency,
   scheduleTemplateToSchedule,
   scheduleToRruleSet,
-} from './schedule';
+} from './schedule.js';
 
 describe('rruleSetToSchedules / scheduleToRrule', () => {
   function testConversion(rrule: string, schedule: TSchedule | TSchedule[]) {

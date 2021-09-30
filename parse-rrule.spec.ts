@@ -1,4 +1,4 @@
-import { parseRRuleSet } from './parse-rrule';
+import { parseRRuleSet } from './parse-rrule.js';
 
 describe('parseRRuleSet', () => {
   it('fixes https://github.com/jakubroztocil/rrule/issues/332', () => {

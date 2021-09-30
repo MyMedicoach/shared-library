@@ -1,4 +1,4 @@
-import invert from 'lodash/invert';
+import invert from 'lodash/invert.js';
 import memoizeOne from 'memoize-one';
 
 export enum ExerciseType {

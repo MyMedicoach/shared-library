@@ -1,5 +1,5 @@
-import { parseRrule, parseRRuleSet } from './parse-rrule';
-import { restrictRruleDates, restrictRruleSetDates } from './rrule-utils';
+import { parseRrule, parseRRuleSet } from './parse-rrule.js';
+import { restrictRruleDates, restrictRruleSetDates } from './rrule-utils.js';
 
 describe('restrictRruleDates', () => {
   it('restricts: UNTIL, start & end', () => {

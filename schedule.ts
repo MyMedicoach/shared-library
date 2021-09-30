@@ -1,13 +1,13 @@
 import type { Options } from 'rrule';
-import RRule, { RRuleSet } from 'rrule';
-import { lastItem, toArray } from './array-utils';
-import { assert } from './assert';
-import { getClosestWeekdayForwardLocal, toRfc3339DateLocal, toRfc3339DateUtc } from './date-utils';
-import { range } from './number-utils';
-import { isObject } from './object-utils';
-import { parseRRuleSet } from './parse-rrule';
-import { isoWeekdayToRRuleWeekday, rruleWeekdayToIsoWeekday } from './rrule-utils';
-import { TwoWayMap } from './two-way-map';
+import { RRuleSet, RRule } from 'rrule';
+import { lastItem, toArray } from './array-utils.js';
+import { assert } from './assert.js';
+import { getClosestWeekdayForwardLocal, toRfc3339DateLocal, toRfc3339DateUtc } from './date-utils.js';
+import { range } from './number-utils.js';
+import { isObject } from './object-utils.js';
+import { parseRRuleSet } from './parse-rrule.js';
+import { isoWeekdayToRRuleWeekday, rruleWeekdayToIsoWeekday } from './rrule-utils.js';
+import { TwoWayMap } from './two-way-map.js';
 
 export enum ScheduleFrequency {
   // Yearly = 'Yearly',

@@ -1,5 +1,5 @@
-import { assert } from './assert';
-import { padNumber } from './number-utils';
+import { assert } from './assert.js';
+import { padNumber } from './number-utils.js';
 
 export function toRfc3339DateLocal(date: Date): string {
   const day = padNumber(date.getDate(), 2);
