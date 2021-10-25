@@ -67,9 +67,9 @@ export function restrictRruleDates(rrule: RRule, clampOptions: TClampOptions): R
 
   const newOptions = { ...rrule.origOptions };
 
-  if (!newOptions.dtstart) {
-    throw new Error(`Invalid RRule received: ${rrule.toString()} is missing DTSTART`);
-  }
+  // if (!newOptions.dtstart) {
+  //   throw new Error(`Invalid RRule received: ${rrule.toString()} is missing DTSTART`);
+  // }
 
   const { startDate, endDate, shiftEndDate } = clampOptions;
 
