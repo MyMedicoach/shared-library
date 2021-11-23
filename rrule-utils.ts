@@ -1,4 +1,5 @@
 import { RRule, RRuleSet, Weekday } from 'rrule';
+import { combinedIterator } from './array-utils.js';
 import { assert } from './assert.js';
 
 type TClampOptions = {
@@ -12,41 +13,61 @@ type TSetClampOptions = TClampOptions & {
   keepOutOfRangeRDates?: boolean,
 };
 
-export function restrictRruleSetDates(rruleSet: RRuleSet, clampOptions: TSetClampOptions): RRuleSet {
+// todo: add to RRuleSet.map, RRuleSet.mapRDates, RRuleSet.mapRRules
+export function mapRruleSet(rruleSet: RRuleSet, cb: (rrule: RRule | Date) => RRule | Date | null): RRuleSet {
   const newSet = new RRuleSet();
 
   if (rruleSet.exrules().length > 0) {
-    throw new Error('clampRruleSet does not support EXRULE');
+    throw new Error('mapRruleSet does not support EXRULE');
   }
 
   if (rruleSet.exdates().length > 0) {
-    throw new Error('clampRruleSet does not support EXDATE');
+    throw new Error('mapRruleSet does not support EXDATE');
   }
 
-  for (const date of rruleSet.rdates()) {
-    if (!clampOptions.keepOutOfRangeRDates) {
-      if (clampOptions.startDate && date.getTime() < clampOptions.startDate.getTime()) {
-        continue;
-      }
+  for (const date of combinedIterator<Date | RRule>(rruleSet.rdates(), rruleSet.rrules())) {
+    const out = cb(date);
 
-      if (clampOptions.endDate && date.getTime() > clampOptions.endDate.getTime()) {
-        continue;
-      }
-    }
-
-    newSet.rdate(date);
-  }
-
-  for (const rrule of rruleSet.rrules()) {
-    const newRrule = restrictRruleDates(rrule, clampOptions);
-    if (newRrule.first() == null) {
+    if (out == null) {
       continue;
     }
 
-    newSet.rrule(newRrule);
+    if (out instanceof Date) {
+      newSet.rdate(out);
+    } else {
+      newSet.rrule(out);
+    }
   }
 
   return newSet;
+}
+
+export function restrictRruleSetDates(rruleSet: RRuleSet, clampOptions: TSetClampOptions): RRuleSet {
+  return mapRruleSet(rruleSet, dateOrRule => {
+    if (dateOrRule instanceof Date) {
+      if (clampOptions.keepOutOfRangeRDates) {
+        return dateOrRule;
+      }
+
+      if (clampOptions.startDate && dateOrRule.getTime() < clampOptions.startDate.getTime()) {
+        return null;
+      }
+
+      if (clampOptions.endDate && dateOrRule.getTime() > clampOptions.endDate.getTime()) {
+        return null;
+      }
+
+      return dateOrRule;
+    }
+
+    // rrule
+    const newRrule = restrictRruleDates(dateOrRule, clampOptions);
+    if (newRrule.first() == null) {
+      return null;
+    }
+
+    return newRrule;
+  });
 }
 
 /**
