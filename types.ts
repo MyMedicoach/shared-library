@@ -10,3 +10,7 @@ export type MaybeArray<T> = T[] | T;
 
 export type ArrayElement<ArrayType extends readonly unknown[]> =
   ArrayType extends ReadonlyArray<infer ElementType> ? ElementType : never;
+
+export function isNonNullish<T>(value: T | null | undefined): value is T {
+  return value != null;
+}
