@@ -28,3 +28,9 @@ export function lastItem<T>(array: T[] | NodeList): T {
 
   return array.item(array.length - 1) as unknown as T;
 }
+
+export function *combinedIterator<T>(...iterables: Array<Iterable<T>>): Generator<T, void, undefined> {
+  for (const iterable of iterables) {
+    yield* iterable;
+  }
+}
