@@ -154,7 +154,7 @@ export function latestDate(mandatoryDate: Date, ...dates: Array<Date | null | un
 }
 
 export function earliestDate(mandatoryDate: Date, ...dates: Array<Date | null | undefined>): Date {
-  let oldest = mandatoryDate;
+  let oldest: Date = mandatoryDate;
 
   for (let i = 0; i < dates.length; i++) {
     const date = dates[i];
