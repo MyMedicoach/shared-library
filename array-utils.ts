@@ -35,3 +35,5 @@ export function *combinedIterator<T>(...iterables: Array<Iterable<T>>): Generato
     yield* iterable;
   }
 }
+
+export const EMPTY_ARRAY: readonly any[] = Object.freeze([]);
