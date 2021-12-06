@@ -140,8 +140,8 @@ export function rruleSetToSchedules(rruleSet: string | RRuleSet): TSchedule[] {
 
     const dtstart = options.dtstart;
     assert(dtstart != null);
-    const interval = options.interval;
-    assert(interval != null && interval > 0);
+    const interval = options.interval ?? 1;
+    assert(interval > 0);
 
     const schedule: TSchedule = {
       startDate: toRfc3339DateUtc(dtstart),
@@ -151,7 +151,7 @@ export function rruleSetToSchedules(rruleSet: string | RRuleSet): TSchedule[] {
     };
 
     if (schedule.frequency === ScheduleFrequency.Daily || schedule.frequency === ScheduleFrequency.Monthly) {
-      assert(rrule.options.byweekday == null);
+      assert(rrule.options.byweekday == null, 'byweeday is not null when it should');
     }
 
     if (schedule.frequency === ScheduleFrequency.Daily || schedule.frequency === ScheduleFrequency.Weekly) {
