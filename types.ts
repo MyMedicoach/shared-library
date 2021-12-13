@@ -14,3 +14,5 @@ export type ArrayElement<ArrayType extends readonly unknown[]> =
 export function isNonNullish<T>(value: T | null | undefined): value is T {
   return value != null;
 }
+
+export type MaybePromise<T> = Promise<T> | T;
