@@ -1,8 +1,9 @@
-import { RRule, RRuleSet, rrulestr } from 'rrule';
+import type { RRule } from 'rrule';
+import { RRuleSet, rrulestr } from 'rrule';
 import { assert } from './assert.js';
 import { pythonSplit } from './string-utils.js';
 
-export function parseRRuleSetArray(rruleStrs: string[]) {
+export function parseRRuleSetArray(rruleStrs: string[]): RRuleSet {
   const finalSet = new RRuleSet();
 
   for (const str of rruleStrs) {
@@ -83,15 +84,15 @@ export function parseRRuleSet(rruleStr: string): RRuleSet {
 export function parseRrule(rruleStr: string): RRule {
   const rrule = rrulestr(rruleStr);
 
-  if (!(rrule instanceof RRule)) {
+  if (rrule instanceof RRuleSet) {
     throw new Error('Cannot parse input as RRule. Is it an RRuleSet?');
   }
 
   return rrule;
 }
 
-function extractName(line) {
-  if (line.indexOf(':') === -1) {
+function extractName(line: string): { name: string, value: string } {
+  if (!line.includes(':')) {
     return {
       name: 'RRULE',
       value: line,
@@ -106,7 +107,7 @@ function extractName(line) {
   };
 }
 
-function breakDownLine(line) {
+function breakDownLine(line: string) {
   const { name, value } = extractName(line);
   const parms = name.split(';');
   if (!parms) {
@@ -120,7 +121,7 @@ function breakDownLine(line) {
   };
 }
 
-function parseRDate(rdateval, parms): Date[] {
+function parseRDate(rdateval: string, parms: string[]): Date[] {
   validateDateParm(parms);
 
   return rdateval
@@ -149,10 +150,10 @@ function parseRRuleDate(until: string): Date {
   ));
 }
 
-function validateDateParm(parms) {
-  parms.forEach(parm => {
+function validateDateParm(parms: string[]): void {
+  for (const parm of parms) {
     if (!/(VALUE=DATE(-TIME)?)|(TZID=)/.test(parm)) {
       throw new Error(`unsupported RDATE/EXDATE parm: ${parm}`);
     }
-  });
+  }
 }

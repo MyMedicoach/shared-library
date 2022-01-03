@@ -81,16 +81,21 @@ export enum ExerciseCategory {
   other = 'other',
 }
 
-export const exerciseCategoriesList = Object.freeze(Object.keys(EXERCISE_CATEGORIES));
+export type TCategory = keyof typeof EXERCISE_CATEGORIES;
+
+export const exerciseCategoriesList
+  = Object.freeze(Object.keys(EXERCISE_CATEGORIES)) as readonly TCategory[];
 
 export function categoryOrDefault(cat: string): ExerciseCategory {
-  return EXERCISE_CATEGORIES[cat] ? (cat as ExerciseCategory) : ExerciseCategory.physiotherapy;
+  return exerciseCategoriesList.includes(cat as TCategory)
+    ? cat as ExerciseCategory
+    : ExerciseCategory.physiotherapy;
 }
 
 const getTypeToCatMapping = memoizeOne(() => {
-  const typeToCat = {};
+  const typeToCat = Object.create(null);
 
-  for (const category of Object.keys(EXERCISE_CATEGORIES)) {
+  for (const category of exerciseCategoriesList) {
     const types = EXERCISE_CATEGORIES[category];
 
     for (const type of types) {
@@ -101,10 +106,13 @@ const getTypeToCatMapping = memoizeOne(() => {
   return typeToCat;
 });
 
+let MMC_WARNED_CATEGORIES: Set<string> | undefined;
+
 function warnUncategorizedType(exerciseType: string) {
-  globalThis.MMC_WARNED_CATEGORIES = globalThis.MMC_WARNED_CATEGORIES || new Set();
-  if (!globalThis.MMC_WARNED_CATEGORIES.has(exerciseType)) {
-    globalThis.MMC_WARNED_CATEGORIES.add(exerciseType);
+  MMC_WARNED_CATEGORIES = MMC_WARNED_CATEGORIES || new Set();
+
+  if (!MMC_WARNED_CATEGORIES.has(exerciseType)) {
+    MMC_WARNED_CATEGORIES.add(exerciseType);
     console.error(`Exercise Type ${exerciseType} does not have an assigned category`);
   }
 }
@@ -138,7 +146,7 @@ export function getExerciseMainCategory(
 }
 
 export function getCategories(exerciseTypes: ExerciseType[]): ExerciseCategory[] {
-  const seen = {};
+  const seen: { [key: string]: boolean } = Object.create(null);
   const typeToCategories = getTypeToCatMapping();
 
   for (const exerciseType of exerciseTypes) {
