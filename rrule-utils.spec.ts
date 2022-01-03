@@ -110,7 +110,7 @@ DTSTART:20210202T000000Z
 RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU;COUNT=9
     `.trim());
 
-    expect(newRrule.last().toISOString()).toBe('2021-02-10T00:00:00.000Z');
+    expect(newRrule.last()?.toISOString()).toBe('2021-02-10T00:00:00.000Z');
   });
 
   it('restricts: COUNT, start, no end shift', () => {

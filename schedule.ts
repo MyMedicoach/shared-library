@@ -92,14 +92,11 @@ export type TRepeatingScheduleTemplate = {
   endDate: null | TCountEndDate,
 } & TRepeatFrequency;
 
-const rruleFrequencyMap = new TwoWayMap({
-  // @ts-expect-error
-  [ScheduleFrequency.Daily]: RRule.DAILY,
-  // @ts-expect-error
-  [ScheduleFrequency.Monthly]: RRule.MONTHLY,
-  // @ts-expect-error
-  [ScheduleFrequency.Weekly]: RRule.WEEKLY,
-});
+const rruleFrequencyMap = new TwoWayMap([
+  [ScheduleFrequency.Daily, RRule.DAILY],
+  [ScheduleFrequency.Monthly, RRule.MONTHLY],
+  [ScheduleFrequency.Weekly, RRule.WEEKLY],
+]);
 
 export function rruleSetToSchedules(rruleSet: string | RRuleSet): TSchedule[] {
   if (typeof rruleSet === 'string') {
