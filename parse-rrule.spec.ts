@@ -27,7 +27,7 @@ RRULE:FREQ=WEEKLY;INTERVAL=3;BYDAY=TU,TH;UNTIL=20210214T000000Z
     expect(rruleSet.exdates()).toHaveLength(0);
 
     expect(rruleSet.rdates()).toHaveLength(2);
-    expect(rruleSet.rdates()[0].toISOString()).toEqual('2021-02-01T00:00:00.000Z');
-    expect(rruleSet.rdates()[1].toISOString()).toEqual('2021-06-01T00:00:00.000Z');
+    expect(rruleSet.rdates()[0].toISOString()).toBe('2021-02-01T00:00:00.000Z');
+    expect(rruleSet.rdates()[1].toISOString()).toBe('2021-06-01T00:00:00.000Z');
   });
 });

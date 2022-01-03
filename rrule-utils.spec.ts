@@ -110,7 +110,7 @@ DTSTART:20210202T000000Z
 RRULE:FREQ=WEEKLY;INTERVAL=1;BYDAY=MO,TU,WE,TH,FR,SA,SU;COUNT=9
     `.trim());
 
-    expect(newRrule.last().toISOString()).toEqual('2021-02-10T00:00:00.000Z');
+    expect(newRrule.last().toISOString()).toBe('2021-02-10T00:00:00.000Z');
   });
 
   it('restricts: COUNT, start, no end shift', () => {
@@ -192,7 +192,7 @@ RRULE:FREQ=DAILY;INTERVAL=2;COUNT=5
       endDate: new Date('2021-07-05T00:00:00Z'),
     });
 
-    expect(newRrule.toString()).toEqual(`DTSTART:20210705T000000Z
+    expect(newRrule.toString()).toBe(`DTSTART:20210705T000000Z
 RRULE:FREQ=DAILY;INTERVAL=2;UNTIL=20210705T000000Z`);
   });
 
@@ -206,7 +206,7 @@ RRULE:FREQ=DAILY;INTERVAL=2;UNTIL=20210705T000000Z`);
       endDate: new Date('2021-07-04T23:23:59Z'),
     });
 
-    expect(newRrule.toString()).toEqual(`DTSTART:20210705T000000Z
+    expect(newRrule.toString()).toBe(`DTSTART:20210705T000000Z
 RRULE:FREQ=DAILY;INTERVAL=2;COUNT=0`);
   });
 });
@@ -222,6 +222,6 @@ describe('restrictRruleSetDates', () => {
       endDate: new Date('2021-07-04T23:23:59Z'),
     });
 
-    expect(newRrule.toString()).toEqual('');
+    expect(newRrule.toString()).toBe('');
   });
 });
