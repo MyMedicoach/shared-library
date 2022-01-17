@@ -1,8 +1,7 @@
 /**
  * Wraps an item in an array if it is not already one
  *
- * @param {T[] | undefined | T} val
- * @returns {T[]}
+ * @param val
  */
 export function toArray<T>(val: undefined | null | T | T[]): T[] {
   if (val == null) {

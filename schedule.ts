@@ -304,5 +304,5 @@ export function isScheduleTemplate(val: any): val is TScheduleTemplate {
 }
 
 export function isScheduleTemplateArray(val: any): val is TScheduleTemplate[] {
-  return Array.isArray(val) && val.find(needle => !isScheduleTemplate(needle)) == null;
+  return Array.isArray(val) && val.some(needle => !isScheduleTemplate(needle));
 }

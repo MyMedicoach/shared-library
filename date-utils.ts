@@ -139,8 +139,7 @@ export function isoDateOnlyToJsDateUtc(dateStr: string): Date {
 export function latestDate(mandatoryDate: Date, ...dates: Array<Date | null | undefined>): Date {
   let mostRecent: Date = mandatoryDate;
 
-  for (let i = 0; i < dates.length; i++) {
-    const date = dates[i];
+  for (const date of dates) {
     if (date == null) {
       continue;
     }
@@ -156,8 +155,7 @@ export function latestDate(mandatoryDate: Date, ...dates: Array<Date | null | un
 export function earliestDate(mandatoryDate: Date, ...dates: Array<Date | null | undefined>): Date {
   let oldest: Date = mandatoryDate;
 
-  for (let i = 0; i < dates.length; i++) {
-    const date = dates[i];
+  for (const date of dates) {
     if (date == null) {
       continue;
     }

@@ -85,7 +85,7 @@ export function parseRrule(rruleStr: string): RRule {
   const rrule = rrulestr(rruleStr);
 
   if (rrule instanceof RRuleSet) {
-    throw new Error('Cannot parse input as RRule. Is it an RRuleSet?');
+    throw new TypeError('Cannot parse input as RRule. Is it an RRuleSet?');
   }
 
   return rrule;

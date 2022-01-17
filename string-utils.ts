@@ -1,9 +1,14 @@
 export function pythonSplit(str: string, sep: string, splitCount?: number) {
   const splits = str.split(sep);
 
-  return splitCount
-    ? splits.slice(0, splitCount).concat([splits.slice(splitCount).join(sep)])
-    : splits;
+  if (!splitCount) {
+    return splits;
+  }
+
+  return [
+    ...splits.slice(0, splitCount),
+    splits.slice(splitCount).join(sep),
+  ];
 }
 
 export function uriTag(strings: TemplateStringsArray, ...parameters: unknown[]): string {
