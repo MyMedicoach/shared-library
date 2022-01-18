@@ -16,3 +16,10 @@ export function isNonNullish<T>(value: T | null | undefined): value is T {
 }
 
 export type MaybePromise<T> = Promise<T> | T;
+
+export type RequiredKeys<T> = { [K in keyof T]-?: {} extends Pick<T, K> ? never : K }[keyof T];
+export type OptionalKeys<T> = { [K in keyof T]-?: {} extends Pick<T, K> ? K : never }[keyof T];
+
+export type OptionalsAcceptUndefined<T> = {
+  [K in keyof T]: K extends OptionalKeys<T> ? T[K] | undefined : T[K]
+};
