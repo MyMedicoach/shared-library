@@ -92,6 +92,40 @@ export function dateComparator(order: SortOrder = SortOrder.ASC): Comparator<Dat
 }
 
 /**
+ * Comparator that puts nulls at the beginning of the sort order.
+ * {@link nullishLastComparator} is the end version.
+ *
+ * @param a
+ * @param b
+ */
+export function nullishFirstComparator(a: any, b: any): number {
+  if (a == null && b == null) {
+    return 0;
+  }
+
+  if (a == null) {
+    return -1;
+  }
+
+  if (b == null) {
+    return 1;
+  }
+
+  return 0;
+}
+
+/**
+ * Comparator that puts nulls at the end of the sort order.
+ * {@link nullishLastComparator} is the beginning version.
+ *
+ * @param a
+ * @param b
+ */
+export function nullishLastComparator(a: any, b: any): number {
+  return nullishFirstComparator(a, b) * -1;
+}
+
+/**
  * Returns an object comparator the compares a property of the object using another comparator
  *
  * @param key the object property to compare
@@ -103,6 +137,22 @@ export function propertyComparator<T extends object, K extends keyof T>(
 ): Comparator<T> {
   return (a: T, b: T) => {
     return comparator(a[key], b[key]);
+  };
+}
+
+/**
+ * Works like {@link propertyComparator} but you pass a callback that returns the value that needs to be compared
+ * instead of a key
+ *
+ * @param getValue The callback that returns the value to compare
+ * @param comparator The comparator used to compare the value returned by the callback
+ */
+export function propertyComparatorCb<T extends object, V>(
+  getValue: (obj: T) => V,
+  comparator: Comparator<V>,
+): Comparator<T> {
+  return (a: T, b: T) => {
+    return comparator(getValue(a), getValue(b));
   };
 }
 

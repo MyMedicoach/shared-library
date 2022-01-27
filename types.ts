@@ -4,7 +4,15 @@ export type NonUndefined<T> = T extends undefined ? never : T;
 
 export type NonNull<T> = T extends null ? never : T;
 
+/**
+ * Marks some of the keys of the object as optional
+ */
 export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+
+/**
+ * Marks some of the keys of the object as required
+ */
+export type RequiredBy<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
 
 export type MaybeArray<T> = T[] | T;
 
