@@ -132,7 +132,7 @@ export function getCategory(exerciseType: ExerciseType | string): ExerciseCatego
 }
 
 export function getExerciseMainCategory(
-  exercise: { exerciseTypes: ExerciseType[] | string[] },
+  exercise: { exerciseTypes: Array<ExerciseType | string> },
 ): ExerciseCategory {
   for (const type of exercise.exerciseTypes) {
     const cat = getCategory(type);
