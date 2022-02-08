@@ -205,6 +205,10 @@ export function rruleSetToSchedules(rruleSet: string | RRuleSet): TSchedule[] {
   return out;
 }
 
+export function scheduleTemplateToRruleSet(date: Date, schedules: TScheduleTemplate | TScheduleTemplate[]): RRuleSet {
+  return scheduleToRruleSet(scheduleTemplateToSchedule(date, schedules));
+}
+
 export function scheduleToRruleSet(schedules: TSchedule | TSchedule[]): RRuleSet {
   const out = new RRuleSet();
 
