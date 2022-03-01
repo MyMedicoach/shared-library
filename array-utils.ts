@@ -174,3 +174,14 @@ export function composedComparator<T>(...comparators: Array<Comparator<T>>): Com
     return 0;
   };
 }
+
+export function findLast<T>(array: T[], cb: (val: T) => boolean): T | undefined {
+  for (let i = array.length - 1; i >= 0; i--) {
+    if (cb(array[i])) {
+      return array[i];
+    }
+  }
+
+  // eslint-disable-next-line consistent-return
+  return undefined;
+}
