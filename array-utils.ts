@@ -20,7 +20,7 @@ export function toArrayOrUndefined<T>(val: undefined | null | T | T[]): T[] | un
   return toArray(val);
 }
 
-export function lastItem<T>(array: T[] | readonly T[] | NodeList): T | undefined {
+export function lastItem<T>(array: T[] | readonly T[] | NodeList | HTMLCollectionBase): T | undefined {
   if (Array.isArray(array)) {
     return array[array.length - 1];
   }
