@@ -303,10 +303,11 @@ export function isUntilEndDate(val: any): val is TUntilEndDate {
 }
 
 export function isScheduleTemplate(val: any): val is TScheduleTemplate {
+
   // @ts-expect-error
   return isObject(val) && (isObject(val.startDate) || isObject(val.date));
 }
 
 export function isScheduleTemplateArray(val: any): val is TScheduleTemplate[] {
-  return Array.isArray(val) && val.some(needle => !isScheduleTemplate(needle));
+  return Array.isArray(val) && val.every(needle => isScheduleTemplate(needle));
 }
